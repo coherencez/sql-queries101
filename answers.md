@@ -30,7 +30,7 @@ For each of the following exercises, provide the appropriate query.
 Answers:
 
 1. Provide a query showing Customers (just their full names, customer ID and country) who are not in the US.
-  ```
+  ```sql
   SELECT FirstName || " " || LastName AS Name,
          CustomerId,
          Country
@@ -38,13 +38,13 @@ Answers:
   WHERE  Country != "USA"
   ```
 2. Provide a query only showing the Customers from Brazil.
-  ```
+  ```sql
   SELECT FirstName || " " || LastName AS Name, CustomerId, Country
   FROM Customer
   WHERE Country = "Brazil"
   ```
 3. Provide a query showing the Invoices of customers who are from Brazil. The resultant table should show the customer's full name, Invoice ID, Date of the invoice and billing country.
-  ```
+  ```sql
     SELECT FirstName || ' ' || LastName AS Name,
            InvoiceId,
            InvoiceDate,
@@ -55,20 +55,59 @@ Answers:
     WHERE  Country = 'Brazil'
   ```
 4. Provide a query showing only the Employees who are Sales Agents.
-  ```
+  ```sql
   SELECT FirstName || " " || LastName AS Name, Title
   FROM Employee
   WHERE Title = "Sales Support Agent"
   ```
 5. Provide a query showing a unique list of billing countries from the Invoice table.
-  ```
-  
+  ```sql
+  SELECT DISTINCT BillingCountry
+  FROM      Invoice
+  ORDER BY  BillingCountry
   ```
 6. Provide a query showing the invoices of customers who are from Brazil.
+   ```sql
+   SELECT FirstName || ' ' || LastName AS Name,
+          InvoiceId,
+          InvoiceDate,
+          BillingCountry
+   FROM   Invoice
+   JOIN   Customer
+   ON     Invoice.CustomerId = Customer.CustomerId
+   WHERE  Country = 'Brazil'
+
+   ```
 7. Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.
+  ```sql
+  SELECT Employee.FirstName || " " || Employee.LastName AS "Full Name", Invoice.* FROM Invoice
+  JOIN Customer ON Invoice.CustomerId == Customer.CustomerId
+  JOIN Employee ON Customer.SupportRepId == Employee.EmployeeId
+  WHERE Employee.Title == "Sales Support Agent";
+  ```
 8. Provide a query that shows the Invoice Total, Customer name, Country and Sale Agent name for all invoices and customers.
+  ```sql
+  SELECT Customer.FirstName || " " || Customer.LastName, Invoice.Total, Customer.Country, Employee.FirstName || " " || Employee.LastName AS "Sales Agent" FROM Invoice
+  JOIN Customer ON Invoice.CustomerId == Customer.CustomerId
+  JOIN Employee ON Customer.SupportRepId == Employee.EmployeeId;
+  ```
 9. How many Invoices were there in 2009 and 2011? What are the respective total sales for each of those years?
+  ```sql
+  SELECT COUNT(*) FROM Invoice
+  WHERE strftime('%Y', InvoiceDate) = "2009" OR strftime('%Y', InvoiceDate) = "2011";
+  ```
+  ```sql
+  SELECT SUM(Total) FROM Invoice
+  WHERE strftime('%Y', InvoiceDate) = "2009";
+
+  SELECT SUM(Total) FROM Invoice
+  WHERE strftime('%Y', InvoiceDate) = "2011";
+  ```
 10. Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for Invoice ID 37.
+  ```sql
+  SELECT COUNT(*) FROM InvoiceLine
+  WHERE InvoiceId = 37
+  ```
 11. Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for each Invoice. HINT: [GROUP BY](http://www.sqlite.org/lang_select.html#resultset)
 12. Provide a query that includes the track name with each invoice line item.
 13. Provide a query that includes the purchased track name AND artist name with each invoice line item.
