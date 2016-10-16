@@ -157,14 +157,68 @@ Answers:
   GROUP BY Employee.EmployeeId
   ```
 19. Which sales agent made the most in sales in 2009?
+  ```sql
+  SELECT Employee.*, SUM(Invoice.Total) AS "Total Sales" FROM Employee
+  JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId
+  JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId
+  WHERE strftime("%Y", Invoice.InvoiceDate) = "2009"
+  GROUP BY Employee.EmployeeId
+  ORDER BY "Total Sales" DESC LIMIT 1
+  ```
 20. Which sales agent made the most in sales in 2010?
+  ```sql
+  SELECT Employee.*, SUM(Invoice.Total) AS "Total Sales" FROM Employee
+  JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId
+  JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId
+  GROUP BY Employee.EmployeeId
+  ORDER BY "Total Sales" DESC LIMIT 1
+  ```
 21. Which sales agent made the most in sales over all?
+  ```sql
+  SELECT Employee.*, COUNT(Customer.CustomerId) AS "Number of customers" FROM Employee
+  JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId
+  GROUP BY Employee.EmployeeId
+  ```
 22. Provide a query that shows the # of customers assigned to each sales agent.
+  ```sql
+  SELECT *, SUM(Invoice.Total) AS "Total Sales" FROM Invoice
+  GROUP BY BillingCountry
+  ```
 23. Provide a query that shows the total sales per country. Which country's customers spent the most?
+  ```sql
+  SELECT BillingCountry, MAX(Total) AS "Total" FROM Invoice
+  ```
 24. Provide a query that shows the most purchased track of 2013.
+  ```sql
+  SELECT Track.*, SUM(InvoiceLine.TrackId) AS "Total Sales" FROM InvoiceLine
+  JOIN Track ON InvoiceLine.TrackId = Track.TrackId
+  GROUP BY InvoiceLine.TrackId
+  ORDER BY "Total Sales" DESC LIMIT 1
+  ```
 25. Provide a query that shows the top 5 most purchased tracks over all.
+  ```sql
+  SELECT Track.*, SUM(InvoiceLine.TrackId) AS "Total Sales" FROM InvoiceLine
+  JOIN Track ON InvoiceLine.TrackId = Track.TrackId
+  GROUP BY InvoiceLine.TrackId
+  ORDER BY "Total Sales" DESC LIMIT 5
+  ```
 26. Provide a query that shows the top 3 best selling artists.
+  ```sql
+  SELECT Artist.Name, SUM(InvoiceLine.TrackId) AS "Total Sales" FROM InvoiceLine
+  JOIN Track ON InvoiceLine.TrackId = Track.TrackId
+  JOIN Album On Track.AlbumId = Album.AlbumId
+  JOIN Artist ON Album.ArtistId = Artist.ArtistId
+  GROUP BY InvoiceLine.TrackId
+  ORDER BY "Total Sales" DESC LIMIT 3
+  ```
 27. Provide a query that shows the most purchased Media Type.
+  ```sql
+  SELECT MediaType.Name, COUNT(*) AS "Count" FROM InvoiceLine
+  JOIN Track ON InvoiceLine.TrackId = Track.TrackId
+  JOIN MediaType ON Track.MediaTypeId = MediaType.MediaTypeId
+  GROUP BY MediaType.Name
+  ORDER BY "Count" DESC LIMIT 1
+  ```
 
 #### Other Resources
 * http://www.sqlcourse.com/
