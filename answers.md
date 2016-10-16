@@ -86,11 +86,15 @@ Answers:
   WHERE Employee.Title == "Sales Support Agent";
   ```
 8. Provide a query that shows the Invoice Total, Customer name, Country and Sale Agent name for all invoices and customers.
+
   ```sql
+
   SELECT Customer.FirstName || " " || Customer.LastName, Invoice.Total, Customer.Country, Employee.FirstName || " " || Employee.LastName AS "Sales Agent" FROM Invoice
   JOIN Customer ON Invoice.CustomerId == Customer.CustomerId
   JOIN Employee ON Customer.SupportRepId == Employee.EmployeeId;
+
   ```
+  
 9. How many Invoices were there in 2009 and 2011? What are the respective total sales for each of those years?
   ```sql
   SELECT COUNT(*) FROM Invoice
