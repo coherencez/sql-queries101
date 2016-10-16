@@ -41,7 +41,7 @@ Answers:
   ```sql
   SELECT FirstName || " " || LastName AS Name, CustomerId, Country
   FROM Customer
-  WHERE Country = "Brazil"
+  WHERE Country = "Brazil";
   ```
 3. Provide a query showing the Invoices of customers who are from Brazil. The resultant table should show the customer's full name, Invoice ID, Date of the invoice and billing country.
   ```sql
@@ -52,19 +52,19 @@ Answers:
     FROM   Invoice
     JOIN   Customer
     ON     Invoice.CustomerId = Customer.CustomerId
-    WHERE  Country = 'Brazil'
+    WHERE  Country = 'Brazil';
   ```
 4. Provide a query showing only the Employees who are Sales Agents.
   ```sql
   SELECT FirstName || " " || LastName AS Name, Title
   FROM Employee
-  WHERE Title = "Sales Support Agent"
+  WHERE Title = "Sales Support Agent";
   ```
 5. Provide a query showing a unique list of billing countries from the Invoice table.
   ```sql
   SELECT DISTINCT BillingCountry
   FROM      Invoice
-  ORDER BY  BillingCountry
+  ORDER BY  BillingCountry;
   ```
 6. Provide a query showing the invoices of customers who are from Brazil.
    ```sql
@@ -75,8 +75,7 @@ Answers:
    FROM   Invoice
    JOIN   Customer
    ON     Invoice.CustomerId = Customer.CustomerId
-   WHERE  Country = 'Brazil'
-
+   WHERE  Country = 'Brazil';
    ```
 7. Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.
   ```sql
