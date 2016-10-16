@@ -109,13 +109,53 @@ Answers:
   WHERE InvoiceId = 37
   ```
 11. Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for each Invoice. HINT: [GROUP BY](http://www.sqlite.org/lang_select.html#resultset)
+  ```sql
+  SELECT COUNT(*), InvoiceId FROM InvoiceLine
+  GROUP BY InvoiceId
+  ```
 12. Provide a query that includes the track name with each invoice line item.
+  ```sql
+  SELECT Track.Name, InvoiceLine.InvoiceLineId FROM InvoiceLine
+  JOIN Track ON InvoiceLine.TrackId = Track.TrackId
+  ```
 13. Provide a query that includes the purchased track name AND artist name with each invoice line item.
+  ```sql
+  SELECT InvoiceLine.InvoiceLineId, Track.Name, Artist.Name FROM InvoiceLine
+  JOIN Track ON InvoiceLine.TrackId = Track.TrackId
+  JOIN Album ON Track.AlbumId = Album.AlbumId
+  JOIN Artist ON Album.ArtistId = Artist.ArtistId
+  ```
 14. Provide a query that shows the # of invoices per country. HINT: [GROUP BY](http://www.sqlite.org/lang_select.html#resultset)
+  ```sql
+  SELECT BillingCountry, COUNT(*) AS "Number of Invoices"  FROM Invoice
+  GROUP BY BillingCountry
+  ```
 15. Provide a query that shows the total number of tracks in each playlist. The Playlist name should be include on the resultant table.
+  ```sql
+  SELECT Playlist.Name, COUNT(Playlist.Name) AS "Total" FROM Playlist
+  JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId
+  GROUP BY Playlist.Name
+  ```
 16. Provide a query that shows all the Tracks, but displays no IDs. The resultant table should include the Album name, Media type and Genre.
+  ```sql
+  SELECT Track.Name, Track.Composer, Track.Milliseconds, Track.UnitPrice, Album.Title, MediaType.Name, Genre.Name  FROM Track
+  JOIN Album ON Track.AlbumId = Album.AlbumId
+  JOIN MediaType ON Track.MediaTypeId = MediaType.MediaTypeId
+  JOIN Genre ON Track.GenreId = Genre.GenreId
+  ```
 17. Provide a query that shows all Invoices but includes the # of invoice line items.
+  ```sql
+  SELECT Invoice.*, COUNT(InvoiceLine.InvoiceId) AS "Invoice Lines" FROM Invoice
+  JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId
+  GROUP BY InvoiceLine.InvoiceId
+  ```
 18. Provide a query that shows total sales made by each sales agent.
+  ```sql
+  SELECT Employee.*, SUM(Invoice.Total) AS "Total Sales" FROM Employee
+  JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId
+  JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId
+  GROUP BY Employee.EmployeeId
+  ```
 19. Which sales agent made the most in sales in 2009?
 20. Which sales agent made the most in sales in 2010?
 21. Which sales agent made the most in sales over all?
